@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Glasgows Limited">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Glasgows Check-In App</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <img alt="Check In Logo" src="assets/imgs/logos/_g-logo.jpg" class="img-responsive logo">
+        </div>
+
+    </div>
+
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-6">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    Menu
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" class="refresh"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" class="upload"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#help-modal">Help</a>
+                    </li>
+                    <li>
+                        <a href="#" class="app-logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-xs-6">
+            <button class="btn btn-primary pull-right" id="clear-search" type="button"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> Clear Searhc Bar</button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <table id="example" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Table Number</th>
+                    <th>Checked In?</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Table Number</th>
+                    <th>Checked In?</th>
+                    <th>Actions</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="dropup">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    Menu
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" class="refresh"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" class="upload"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#help-modal">Help</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#login-modal">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="offline-warning hidden">
+    <h3 class="glyphicon glyphicon-warning-sign" aria-hidden="true"></h3>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="login-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Login to your Event</h4>
+            </div>
+            <form id="app-login">
+                <div class="modal-body">
+                    <p>Use the login credentials provided to access the list of delegates attending your event.</p>
+
+
+                    <div class="alert alert-warning hidden" id="login-upload-required">
+                        <strong>Caution! </strong> There are entries that have not been uploaded.
+                        Ensure the device has an internet connection and choose 'Upload' from the Menu or these changes will be lost.
+                    </div>
+
+                    <div class="alert alert-danger hidden" id="login-failed">
+                        Sorry but we were unable to log you in using those details. If problems persist, please contact
+                        <a href="mailto:digital@glasgows.co.uk?subject=Check%20In%20Issue" target="_blank">Glasgows.</a>
+                    </div>
+                    <div class="alert alert-danger hidden" id="login-noconnection">
+                        Ensure there is an internet connection available and try again.
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="username">Email address</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password</label>
+                        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Start checking in!</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="assets/js/jquery-2.2.4.min.js"></script>
+<script src="assets/js/jquery.mobile-1.4.5.min.js"></script>
+<script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/configs.js"></script>
+<script src="assets/js/offline.js"></script>
+
+
+</body>
+</html>
