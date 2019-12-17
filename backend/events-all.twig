@@ -1,0 +1,124 @@
+{%extends "admin/bases/standard.html"%}
+
+{%block js%}
+	<script src="/js/admin-home.js"></script>
+{%endblock%}
+
+{%block navigation%}
+	{%include "admin/includes/navigation.twig"%}
+{%endblock%}
+
+{%block container%}
+	{{parent()}}
+	<div class="container-fluid">
+		<div class="row">
+
+			{{ include ("admin/includes/sidebar.twig", {selected: 'events'}) }}
+
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
+
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+					<h1 class="h2">
+						Events
+						<br/><small>List of all events</small>
+					</h1>
+
+				</div>
+
+				{%if flash.errors%}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>There was a problem!</strong>
+						{%for error in flash.errors%}
+							{{error}}<br/>
+						{%endfor%}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{%endif%}
+
+				{%if flash.success%}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>Success!</strong> {{flash.success}}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				{%endif%}
+
+				<div class="row">
+					<div class="col">
+
+						<table class="table table-striped">
+							<thead>
+							<th>Name</th>
+							<th>UID</th>
+							<th>Created</th>
+							<th>Created By</th>
+							<th>Status</th>
+							<th>Availability</th>
+							<th>Action</th>
+							</thead>
+							<tbody>
+							{%for e in events%}
+								<tr>
+									<td>{{e.identifier}}</td>
+									<td>{{e.uid}}</td>
+									<td>{{e.created.date|date("d/m/Y H:i")}}</td>
+									<td>{{e.user.email}}</td>
+									<td>
+										{%if e.event_status %}
+											<strong class="text-success">Ready</strong>
+										{%else%}
+											<strong class="text-danger">Incomplete</strong>
+										{%endif%}
+									</td>
+									<td>
+										{%if e.availability %}
+											<strong class="text-success">Available</strong>
+										{%else%}
+											<strong class="text-danger">Unavailable</strong>
+										{%endif%}
+									</td>
+									<td>
+										<a href="/admin/events/credentials/{{e.uid}}" class="btn btn-link" title="Set Username and Password">
+											<i class="fa fa-fw fa-key"></i>
+											{%if not e.event_credentials%}
+												<span class="badge badge-warning badge-pill" title="Not configured!"><i class="fa fa-exclamation-circle"></i></span>
+											{%endif%}
+										</a>
+										<a href="/admin/events/availability/view/{{e.uid}}" class="btn btn-link" title="Availability">
+											<i class="fa fa-fw fa-lock"></i>
+											{%if not e.availability%}
+												<span class="badge badge-warning badge-pill" title="Not configured!"><i class="fa fa-exclamation-circle"></i></span>
+											{%endif%}
+										</a>
+										<a href="/admin/events/delegates/additional/upload/{{e.uid}}" class="btn btn-link" title="Additional delegates"><i class="fa fa-fw fa-user-plus"></i></a>
+										<a href="/admin/events/settings/{{e.uid}}" class="btn btn-link" title="Event Settings">
+											<i class="fa fa-fw fa-wrench"></i>
+											{%if not e.event_settings%}
+												<span class="badge badge-warning badge-pill" title="Not configured!"><i class="fa fa-exclamation-circle"></i></span>
+											{%endif%}
+										</a>
+										<a href="/admin/events/delegates/view/{{e.uid}}" class="btn btn-link" title="View/Edit Delegates"><i class="fa fa-fw fa-binoculars"></i></a>
+										<a href="export/{{e.uid}}" class="btn btn-link" title="Download Export (CSV)"><i class="fa fa-fw fa-download"></i></a>
+									</td><!--
+                                <td>
+                                    <a href="preview/{{e.uid}}" target="_blank" class="btn btn-primary btn-block btn-sm"><i class="fa fa-fw fa-eye"></i> Preview</a>
+                                </td>-->
+								</tr>
+							{%else%}
+								<tr>
+									<td colspan="5">No events</td>
+								</tr>
+							{%endfor%}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</main>
+		</div>
+	</div>
+
+{%endblock%}
